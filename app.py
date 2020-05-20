@@ -32,13 +32,15 @@ def webhook():
                     
                     response=None
                     entity,value = wit_response(messaging_text)
+                    hello,dump = wit_response(messaging_text)
+                    if hello == "hello":
+                        response = "Hey, how may i help you!"
                     if entity == "newstype":
                         response = "Ok, I will send you {} news".format(str(value))
                     elif entity == "location":
                         response = "Ok, So you live in {0}. I will send you top headlines from {0}".format(str(value))
                     if response == None:
                         response = "Sorry, I didn't understand that!"
-                    
                     bot.send_text_message(sender_id,response)
     return "ok", 200
 

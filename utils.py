@@ -4,6 +4,11 @@ client = Wit(access_token = access_token)
 
 def wit_response(message_text):
     resp = client.message(message_text)
+    print("chirag")
+    print(resp)
+    print("chirag")
+    if resp['_text'] == "Hello" or resp['_text'] == "hello":
+        return "hello","cric" 
     entity = None
     value= None
     try:
@@ -12,4 +17,4 @@ def wit_response(message_text):
     except:
         pass
     return(entity,value)
-print(wit_response("i want sports news"))
+#print(wit_response("i want sports news"))
