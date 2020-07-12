@@ -12,7 +12,7 @@ bot = Bot(PAGE_ACCESS_TOKEN)
 flag = 0
 name = email = branch = year = contact = ""
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy(app)
 
