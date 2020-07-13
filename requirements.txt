@@ -3,6 +3,7 @@ bs4==0.0.1
 certifi==2020.4.5.1
 chardet==3.0.4
 click==7.1.2
+docutils==0.16
 feedparser==5.2.1
 Flask==1.1.2
 Flask-SQLAlchemy==2.4.3
@@ -13,10 +14,14 @@ html5lib==1.0.1
 idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.2
+lockfile==0.12.2
 MarkupSafe==1.1.1
+pid==3.0.3
 prompt-toolkit==3.0.5
+psutil==5.7.0
 psycopg2==2.8.5
 pymessenger==0.0.7.0
+python-daemon==2.2.4
 requests==2.23.0
 requests-toolbelt==0.9.1
 six==1.14.0

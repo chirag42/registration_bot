@@ -12,7 +12,7 @@ bot = Bot(PAGE_ACCESS_TOKEN)
 flag = 0
 name = email = branch = year = contact = ""
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Gaurav!12@localhost/botarmy'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://tatzdovtwuiiox:8d57850758cb10897175736488c1d2fe061620d8ade4ff5b24fb6d080cf0cfef@ec2-34-239-241-25.compute-1.amazonaws.com:5432/da31aohvvt7ll9'
 
 db = SQLAlchemy(app)
 
