@@ -10,21 +10,22 @@ app = Flask(__name__)
 PAGE_ACCESS_TOKEN = "EAADZCQZCd8FSABAFDZCw0mZCLVQZBqf9TRfU2XXKKEzUIJJ78Gla7a2qmi2WZChJzfCLzNZBJZAyRZBZCfWJEqNQYZBtUg8scZBCxcFbTtwJPFmHJMMVc2WFqssdDuZC756m50ZBZBhrnzskbLErG4PZCMk3XLOt4JrZCYORmr3pzjeRtyH9DGeGP5WZChDx5t"
 bot = Bot(PAGE_ACCESS_TOKEN)
 flag = 0
-# name = email = branch = year = contact = ""
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+name = email = branch = year = contact = ""
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Gaurav!12@localhost/botarmy'
 
-# db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
-# class User(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(50))
-#     email = db.Column(db.String(50))
-#     branch = db.Column(db.String(5))
-#     year = db.Column(db.String(7))
-#     contact = db.Column(db.String(10))
-#     SENDER_ID = db.Column(db.String(20))
-#     date_created = db.Column(db.DateTime, default=datetime.now)
+class User(db.Model):
+    __tablename__ = 'registeration'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    branch = db.Column(db.String(5))
+    year = db.Column(db.String(7))
+    contact = db.Column(db.String(10))
+    SENDER_ID = db.Column(db.String(20))
+    date_created = db.Column(db.DateTime, default=datetime.now)
 
 @app.route('/', methods=['GET'])
 def verify(): 
@@ -39,8 +40,7 @@ def verify():
 def webhook():
     msg=["CSE","IT","EXTC"]
     yr=["FE", "SE", "TE", "BE", "BTECH", "DIPLOMA"]
-    global flag
-    # global name, email, branch, year, contact
+    global flag, name, email, branch, year, contact
     print(flag)
     response=None
     data=request.get_json()
@@ -66,7 +66,7 @@ def webhook():
                     if flag == 5:
                         if "contact" not in messaging_text and "valid" not in messaging_text:
                             if(re.match(r'[789]\d{9}$', messaging_text) != None):
-                                # contact = messaging_text
+                                contact = messaging_text
                                 response = "please complete your registration by paying ₹ 50/- via UPI. \nFurther information is mailed to you. \nShare your payment screenshot on the given whatsapp number to confirm your seat. \nThis amount will be refunded on the workshop day itself. \nThanks for registering. :)"
                                 flag=6
                                 #code to sqlite
@@ -78,7 +78,7 @@ def webhook():
                         if "year" not in messaging_text and "valid" not in messaging_text:
                             messaging_text = messaging_text.upper()
                             if messaging_text in yr:
-                                # year = messaging_text
+                                year = messaging_text
                                 response = "please enter your contact number"
                                 flag=5
                             else:
@@ -88,7 +88,7 @@ def webhook():
                         if "branch" not in messaging_text  and "valid" not in messaging_text:
                             messaging_text = messaging_text.upper()
                             if messaging_text in msg:
-                                # branch = messaging_text
+                                branch = messaging_text
                                 response = "please enter your year.(For example, FE, SE, TE, BE, BTECH, DIPLOMA"
                                 flag=4
                             else:
@@ -98,7 +98,7 @@ def webhook():
                     if flag == 2:
                         if "E-mail" not in messaging_text and "valid" not in messaging_text:
                             if(re.match("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", messaging_text) != None):
-                                # email = messaging_text
+                                email = messaging_text
                                 response = "please enter your branch.(for example, CSE/IT/EXTC)"
                                 flag=3
                             else:
@@ -107,7 +107,7 @@ def webhook():
                     if flag==1:
                         if "name" not in messaging_text and "valid" not in messaging_text and "register" not in messaging_text:
                             if all(c in string.ascii_letters + ' ' for c in messaging_text):
-                                # name = messaging_text
+                                name = messaging_text
                                 response = "please enter your E-mail address."
                                 flag = 2
                             else:
@@ -173,10 +173,10 @@ def webhook():
 #         bot.send_text_message(sid,"please enter your E-mail address.")
 #     return "ok",200
 
-# def data_stored(name,email,branch,year,contact,sender_id):
-#     user = User(name=name,email=email,branch=branch,year=year,contact=contact,SENDER_ID=sender_id)
-#     db.session.add(user)
-#     db.session.commit()
+def data_stored(name,email,branch,year,contact,sender_id):
+    user = User(name=name,email=email,branch=branch,year=year,contact=contact,SENDER_ID=sender_id)
+    db.session.add(user)
+    db.session.commit()
 
 
 def log(message):
@@ -185,4 +185,4 @@ def log(message):
 
 
 if __name__ == "__main__":
-    app.run(debug = True, port = 80) 
+    app.run(debug = False, port = 80) 
